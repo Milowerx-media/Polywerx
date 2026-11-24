@@ -250,7 +250,7 @@ kbd{background:#24262a;border:1px solid #111;border-radius:3px;padding:0 4px;fon
 .lp-name{flex:1;min-width:0;text-align:left;background:none;border:0;color:var(--text);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0}
 .lp-top input[type=color]{width:26px;height:22px;border:0;background:none;padding:0}
 .pup-issue{display:flex;gap:4px;align-items:center;padding:3px 10px;font-size:11px}.pup-issue span{flex:1}
-#sfTop,#sfTools,#sfLeft,#sfPanel{display:none}
+#sfTop,#sfIcons,#sfTools,#sfLeft,#sfPanel{display:none}
 body.sf #app{grid-template-rows:0 0 1fr 0}
 body.sf #menubar,body.sf #shelf,body.sf #status,body.sf #outliner,body.sf #attr{visibility:hidden;overflow:hidden;min-height:0;min-width:0;padding:0;border:0}
 body.sf main{grid-template-columns:0 1fr 0 !important}
@@ -262,6 +262,10 @@ body.sf #sfTop{display:flex;position:absolute;top:10px;left:50%;transform:transl
 .sf-switch{background:#e08a3c;color:#1b1c1f;font-weight:600}.sf-switch:hover{background:#f0a050}
 .sf-sep{width:1px;height:22px;background:#3a3c42;margin:0 3px}
 .sf-info{color:#8d929b;font-size:11.5px;padding:0 6px}
+body.sf #sfIcons{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px;position:absolute;left:50%;transform:translateX(-50%);z-index:9;padding:4px 6px;background:rgba(24,25,28,.88);border:1px solid #0e0e10;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.45);max-width:calc(100% - 250px)}
+.sf-ib{width:36px;height:34px;display:flex;align-items:center;justify-content:center;background:transparent;border:0;border-radius:8px;color:#d8dbe0;cursor:pointer}
+.sf-ib:hover{background:#4a6fd8;color:#fff}
+.sf-isep{width:1px;height:20px;background:#3a3c42;margin:0 4px}
 #sfFile{display:none;position:absolute;z-index:30;width:290px;max-height:calc(100% - 70px);overflow:auto;background:rgba(28,29,33,.98);border:1px solid #0e0e10;border-radius:12px;padding:6px;box-shadow:0 14px 36px rgba(0,0,0,.6)}
 #sfFile .sff-h{padding:6px 10px 3px;color:#8d929b;font-size:10px;text-transform:uppercase;letter-spacing:.6px}
 #sfFile .sff-i{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;background:none;border:0;border-radius:8px;color:#d8dbe0;cursor:pointer;font:inherit;font-size:12.5px;text-align:left}
@@ -316,7 +320,7 @@ body.sf #menuFab{display:none}
       <canvas id="c" tabindex="0"></canvas>
       <div id="hud"></div><div id="toolhint"></div><div id="viewname">persp</div>
       <div id="viewCube"><div id="vcStage"><div id="vcCube"></div></div><div class="vc-btns"><button class="vc-b" data-vc="persp" title="Perspective view">Persp</button><button class="vc-b" data-vc="ortho" title="Use flat orthographic projection for Top, Front, Side and the other views">Ortho</button></div><div class="vc-chips"><button class="vc-chip vc-top" data-view="top" title="Top">T</button><button class="vc-chip vc-front" data-view="front" title="Front">F</button><button class="vc-chip vc-right" data-view="right" title="Right side">R</button><button class="vc-chip vc-bottom" data-view="bottom" title="Bottom">Bo</button><button class="vc-chip vc-back" data-view="back" title="Back">Bk</button><button class="vc-chip vc-left" data-view="left" title="Left side">L</button></div></div>
-      <div id="sfTop"></div><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
+      <div id="sfTop"></div><div id="sfIcons"></div><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
       <button id="menuFab" title="All menus (use this if the menu bar at the top is covered)">☰ Menus</button><div id="menuSheet"><div class="ms-head"><span>Menus</span><button id="msX" title="Close">×</button></div><div id="msBody"></div></div>
       <div id="marquee"></div><div id="drawBar"></div><div id="d2Cursor"></div><svg id="lassoSvg"><polyline points=""/></svg><div id="ctx"></div><div id="toast"></div>
       <div id="refCard"><div class="rc-head"><span class="rc-label"></span><button data-rc="fade" title="Change see-through amount">◐</button><button data-rc="x" title="Hide reference">×</button></div><img alt="Drawing reference"><button class="btn" data-rc="match">Match this drawing with Claude</button></div>
@@ -3772,12 +3776,12 @@ function setTool(t) {
     if (!o) { toast('Select a mesh first, then pick Sculpt.'); return; }
     tool = 'sculpt';
     if (!sculptBegin(o)) { tool = 'select'; return; }
-    enterSculptform();
+    enterSculptwerx();
     updateGizmo(); renderShelf(); updateHUD(); renderAttr(); renderShapeBar();
-    if (!localStorage_get('pf.sculptTip2')) { localStorage_set('pf.sculptTip2', '1'); toast('Welcome to Sculptform. Drag on the model to sculpt, drag the background to turn around it. Shift smooths, Ctrl pushes in. The Polywerx button (or Esc) takes you back.'); }
+    if (!localStorage_get('pf.sculptTip2')) { localStorage_set('pf.sculptTip2', '1'); toast('Welcome to Sculptwerx. Drag on the model to sculpt, drag the background to turn around it. Shift smooths, Ctrl pushes in. The Polywerx button (or Esc) takes you back.'); }
     return;
   }
-  if (t !== 'sculpt' && tool === 'sculpt') { tool = t; sculptEnd(); exitSculptform(); renderShapeBar(); }
+  if (t !== 'sculpt' && tool === 'sculpt') { tool = t; sculptEnd(); exitSculptwerx(); renderShapeBar(); }
   if (t === 'lasso' && sel.mode === 'object') { const a = active(); if (a && a.kind === 'mesh') { tool = 'lasso'; setMode('vertex'); toast('Lasso: draw around an area to select it. Shift adds, Ctrl removes. Then use New from selection in the Shape Editor, or Ctrl+H to hide it.'); } else { toast('Select a mesh first, then pick Lasso.'); return; } }
   if (t === 'paint' && tool !== 'paint' && !startPaint()) return;
   if (t !== 'paint' && tool === 'paint') { brush.visible = false; tool = t; o_weightsReset(); updateWeightsDisplay(); }
@@ -3834,7 +3838,7 @@ const ACTIONS = {
   'face.reset': { label: 'Face Rig: Reset Face Pose', fn: () => resetFacePose() },
   'face.remove': { label: 'Face Rig: Remove', fn: () => { const m = faceMesh(); if (m) confirmModal('Remove the face points and their weights?', () => removeFaceRig(m)); } },
   'tool.lasso': { label: 'Lasso Select Tool', key: 'L', fn: () => setTool('lasso') },
-  'tool.sculpt': { label: 'Sculptform (sculpting workspace)', key: 'Shift+S', fn: () => setTool(tool === 'sculpt' ? 'select' : 'sculpt') },
+  'tool.sculpt': { label: 'Sculptwerx (sculpting workspace)', key: 'Shift+S', fn: () => setTool(tool === 'sculpt' ? 'select' : 'sculpt') },
   'mesh.simplify': { label: 'Simplify…', fn: simplifyDialog },
   'mesh.separate': { label: 'Separate Pieces', fn: separatePieces },
   'mesh.extract': { label: 'Extract Selection', fn: extractSelection },
@@ -4092,7 +4096,7 @@ const SHELF = [
    ['tool.rotate', 'rotate', 'Rotate', 'Drag the coloured rings to rotate around one axis.', 'E', () => tool === 'rotate'],
    ['tool.scale', 'scale', 'Scale', 'Drag a handle to stretch along one axis, or the centre box to resize evenly.', 'R', () => tool === 'scale'],
    ['tool.lasso', 'lasso', 'Lasso', 'Draw a free-hand loop to select vertices, edges or faces. Works on rigged characters too, for capturing a mouth area.', 'L', () => tool === 'lasso'],
-   ['tool.sculpt', 'sculpt', 'Sculptform', 'Brush the surface: Draw, Clay, Inflate, Smooth, Flatten, Crease, Pinch and Grab. Goes into the base, a sculpt layer, or the blend shape you are editing.', 'Shift+S', () => tool === 'sculpt'],
+   ['tool.sculpt', 'sculpt', 'Sculptwerx', 'Brush the surface: Draw, Clay, Inflate, Smooth, Flatten, Crease, Pinch and Grab. Goes into the base, a sculpt layer, or the blend shape you are editing.', 'Shift+S', () => tool === 'sculpt'],
    ['rig.joint', 'joint', 'Joint', 'Click in the viewport to draw a chain of joints for a skeleton. Enter finishes the chain.', 'J', () => tool === 'joint']],
   [['mode.object', 'object', 'Object', 'Select and transform whole objects.', 'F8', () => sel.mode === 'object'],
    ['mode.vertex', 'vertex', 'Vertex', 'Select and move the corner points of a mesh.', 'F9', () => sel.mode === 'vertex'],
@@ -7422,15 +7426,15 @@ async function runSimplify(list, keep, quads, lockBorder) {
 
 
 /* ============================================================
-   Sculptform: a sculpting workspace laid out like a tablet sculpting app
+   Sculptwerx: a sculpting workspace laid out like a tablet sculpting app
    ============================================================ */
 const SF = { on: false, panel: null };
-function enterSculptform() {
+function enterSculptwerx() {
   if (SF.on) return;
   SF.on = true; document.body.classList.add('sf');
   renderSF(); setTimeout(() => { resize(); }, 0);
 }
-function exitSculptform() {
+function exitSculptwerx() {
   if (!SF.on) return;
   SF.on = false; SF.panel = null; document.body.classList.remove('sf');
   setTimeout(() => { resize(); }, 0);
@@ -7463,8 +7467,20 @@ ${['scene', 'layers', 'topology', 'material'].map(k => `<button class="sf-b ${SF
 <button class="sf-q ${sculpt.brush === 'smooth' ? 'on' : ''}" data-sfb="smooth" title="Smooth (or hold Shift)">Smooth</button>
 <button class="sf-q" data-sf="frame" title="Frame the model (F)">Frame</button>`;
   renderSFPanel();
-  requestAnimationFrame(() => { const t = $('#sfTop'); if (t) document.body.style.setProperty('--sfTopH', (t.offsetTop + t.offsetHeight + 10) + 'px'); });
+  const ib = (op, ic, tip) => `<button class="sf-ib" data-sff="${op}" title="${tip}">${SF_ICON(SFF_IC[ic], 19)}</button>`;
+  $('#sfIcons').innerHTML = ib('newSphere', 'sphere', 'New sculpt from a sphere') + ib('new', 'new', 'New empty scene') + '<span class="sf-isep"></span>' +
+    ib('open', 'open', 'Open scene (Ctrl+O)') + ib('save', 'save', 'Save scene (Ctrl+S)') + ib('saveAs', 'saveas', 'Save scene as…') + '<span class="sf-isep"></span>' +
+    ib('import', 'import', 'Import STL or OBJ') + ib('ref', 'ref', 'Import reference image') + '<span class="sf-isep"></span>' +
+    ib('stl', 'stl', 'Export STL for 3D printing') + ib('obj', 'obj', 'Export OBJ + textures') + ib('glb', 'glb', 'Export GLB with rig');
+  requestAnimationFrame(sfPlaceIcons);
 }
+// keep the icon row just under the top bar, and messages and panels under both, whatever the window size
+function sfPlaceIcons() {
+  const t = $('#sfTop'), r = $('#sfIcons'); if (!t || !r || !document.body.classList.contains('sf')) return;
+  r.style.top = (t.offsetTop + t.offsetHeight + 6) + 'px';
+  document.body.style.setProperty('--sfTopH', (r.offsetTop + r.offsetHeight + 10) + 'px');
+}
+try { const ro = new ResizeObserver(() => sfPlaceIcons()); ro.observe($('#sfTop')); ro.observe($('#sfIcons')); ro.observe($('#viewport')); } catch (e) { }
 function renderSFPanel() {
   const p = $('#sfPanel'); if (!p) return;
   if (!SF.on || !SF.panel) { p.style.display = 'none'; return; }
@@ -7899,7 +7915,7 @@ document.addEventListener('input', e => {
 renderShelf();
 
 
-/* ===== Sculptform File menu: new, open, save, save as, import, export (OBJ, STL, GLB) ===== */
+/* ===== Sculptwerx File menu: new, open, save, save as, import, export (OBJ, STL, GLB) ===== */
 const SFF = { open: false };
 const sfFile = document.createElement('div'); sfFile.id = 'sfFile'; vp.appendChild(sfFile);
 const SFF_IC = {
@@ -7934,7 +7950,7 @@ ${item('newSphere', 'sphere', 'New sculpt from a sphere')}${item('new', 'new', '
 function sfFileClose() { if (!SFF.open) return; SFF.open = false; sfFile.style.display = 'none'; const b = $('#sfTop [data-sf="file"]'); if (b) b.classList.remove('on'); }
 document.addEventListener('pointerdown', e => { if (SFF.open && !sfFile.contains(e.target) && !e.target.closest('#sfTop [data-sf="file"]')) sfFileClose(); }, true);
 window.addEventListener('keydown', e => { if (SFF.open && e.key === 'Escape') { sfFileClose(); e.stopPropagation(); } }, true);
-sfFile.addEventListener('click', e => {
+function sfFileRun(e) {
   const b = e.target.closest('[data-sff]'); if (!b) return;
   const op = b.dataset.sff; sfFileClose();
   if (op === 'new') confirmModal('Start a new empty scene? Unsaved changes will be lost (undo still works).', () => { sculptEnd(); clearScene(); sel.objects = []; sel.mode = 'object'; sel.comp.clear(); updateLightingState(); onSelChanged(); commit('New scene'); prompt2Name = 'scene'; renderSF(); });
@@ -7953,7 +7969,9 @@ sfFile.addEventListener('click', e => {
   else if (op === 'obj') exportOBJ();
   else if (op === 'glb') exportGLB();
   else if (op === 'back') toggleWorkspace();
-});
+}
+sfFile.addEventListener('click', sfFileRun);
+$('#sfIcons').addEventListener('click', sfFileRun);
 function saveSceneAs() {
   showModal('Save scene as', `<p>File name</p><div style="display:flex;align-items:center;gap:6px"><input id="saveAsName" type="text" value="${esc(prompt2Name || 'scene')}" style="flex:1;padding:6px;background:#1f2125;border:1px solid #111;color:var(--text);border-radius:4px"><span style="color:var(--muted)">.json</span></div>`,
     [{ label: 'Cancel' }, { label: 'Save', primary: true, fn: () => { const n = ($('#saveAsName').value || '').trim().replace(/\.json$/i, '').replace(/[\\/:*?"<>|]+/g, '-'); prompt2Name = n || 'scene'; saveScene(); } }]);
@@ -7982,7 +8000,7 @@ function exportSTL() {
   offerFile(name + '.stl', new Blob([buf], { type: 'model/stl' }));
   toast(`STL: ${list.length} mesh${list.length > 1 ? 'es' : ''}, ${tris.toLocaleString()} triangles.${chosen.length ? '' : ' Select meshes first to export only those.'}`);
 }
-// after opening a scene or importing a model while in Sculptform, keep sculpting on what came in
+// after opening a scene or importing a model while in Sculptwerx, keep sculpting on what came in
 function sfAfterLoad() {
   if (!SF.on) return;
   setTimeout(() => {
