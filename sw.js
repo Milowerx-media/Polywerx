@@ -1,6 +1,6 @@
 // Polywerx offline helper. It keeps a copy of the app on this computer so the installed app
 // opens without internet, and it fetches the newest version whenever you're online.
-const VERSION = "pwx-4";
+const VERSION = "pwx-6";
 const SHELL = ["./", "index.html", "guide.pdf", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
 // the 3D engine and its add-ons come from these sites; a copy is kept after the first visit
 const LIBS = /^https:\/\/(cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|unpkg\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)\//;
@@ -26,7 +26,7 @@ self.addEventListener("fetch", e => {
   if (url.origin === self.location.origin) {
     if (r.mode === "navigate" || url.pathname.endsWith("/") || url.pathname.endsWith("index.html")) {   // the app itself: newest when online
       const saved = () => caches.match("index.html").then(m => m || caches.match("./"));
-      e.respondWith(timeout(fetch(r), 6000).then(res => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put("index.html", copy)); return res; } return saved().then(m => m || res); })   // site down or paused: keep using the saved copy
+      e.respondWith(timeout(fetch(r.url, { cache: "no-cache", credentials: "same-origin" }), 6000).then(res => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put("index.html", copy)); return res; } return saved().then(m => m || res); })   // site down or paused: keep using the saved copy
         .catch(saved));
       return;
     }

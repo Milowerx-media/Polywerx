@@ -160,6 +160,7 @@ kbd{background:#24262a;border:1px solid #111;border-radius:3px;padding:0 4px;fon
 .bs.editing{background:#3d3420}
 .bs-top{display:grid;grid-template-columns:1fr auto auto auto;gap:3px;margin-bottom:4px}
 .btn.sm{height:24px;padding:0 7px}
+#bClose{background:none;border:0;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:0 2px 0 4px}#bClose:hover{color:#fff}
 #banner{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);background:#2f3136;border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:none;gap:8px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:5}
 #lassoSvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none;z-index:4}
 #lassoSvg polyline{fill:rgba(255,179,64,.12);stroke:#ffb340;stroke-width:1.5;stroke-dasharray:5 3}
@@ -266,6 +267,8 @@ body.sf #sfIcons{display:flex;flex-wrap:wrap;justify-content:center;align-items:
 .sf-ib{width:36px;height:34px;display:flex;align-items:center;justify-content:center;background:transparent;border:0;border-radius:8px;color:#d8dbe0;cursor:pointer}
 .sf-ib:hover{background:#4a6fd8;color:#fff}
 .sf-isep{width:1px;height:20px;background:#3a3c42;margin:0 4px}
+.sf-ilab{color:#8d929b;font-size:11px;margin:0 2px 0 2px}
+.sf-ib svg{width:20px;height:20px}
 #sfFile{display:none;position:absolute;z-index:30;width:290px;max-height:calc(100% - 70px);overflow:auto;background:rgba(28,29,33,.98);border:1px solid #0e0e10;border-radius:12px;padding:6px;box-shadow:0 14px 36px rgba(0,0,0,.6)}
 #sfFile .sff-h{padding:6px 10px 3px;color:#8d929b;font-size:10px;text-transform:uppercase;letter-spacing:.6px}
 #sfFile .sff-i{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;background:none;border:0;border-radius:8px;color:#d8dbe0;cursor:pointer;font:inherit;font-size:12.5px;text-align:left}
@@ -277,13 +280,17 @@ body.sf #sfIcons{display:flex;flex-wrap:wrap;justify-content:center;align-items:
 body.sf #sfTools{display:flex;flex-direction:column;flex-wrap:wrap-reverse;align-content:flex-start;gap:6px;position:absolute;right:12px;top:170px;max-height:calc(100% - 182px);z-index:9;padding:8px 6px;background:rgba(24,25,28,.88);border:1px solid #0e0e10;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .sf-tool{width:58px;height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#2b2d32;border:0;border-radius:12px;color:#d8dbe0;cursor:pointer;font-size:10px}
 .sf-tool:hover{background:#383a40}.sf-tool.on{background:#4a6fd8;color:#fff}
-body.sf #sfLeft{display:flex;flex-direction:column;align-items:center;gap:10px;position:absolute;left:12px;top:50%;transform:translateY(-50%);max-height:calc(100% - 20px);overflow-y:auto;z-index:9;padding:12px 8px;background:rgba(24,25,28,.88);border:1px solid #0e0e10;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+body.sf #sfLeft{display:flex;flex-direction:column;align-items:center;gap:10px;position:absolute;left:12px;top:calc(50% - 22px);transform:translateY(-50%);max-height:calc(100% - 110px);overflow-y:auto;z-index:9;padding:12px 8px;background:rgba(24,25,28,.88);border:1px solid #0e0e10;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .sf-vs{display:flex;flex-direction:column;align-items:center;gap:4px}
 .sf-vl{font-size:10px;color:#8d929b;text-transform:uppercase;letter-spacing:.5px}
 .sf-vv{font-size:11px;color:#d8dbe0;font-variant-numeric:tabular-nums}
-.sf-v{writing-mode:vertical-lr;direction:rtl;width:26px;height:min(150px,22vh);accent-color:#4a6fd8;cursor:pointer}
+.sf-pill{position:relative;width:46px;height:min(190px,25vh);min-height:90px;background:#2b2d32;border:1px solid #0e0e10;border-radius:14px;overflow:hidden;cursor:ns-resize;touch-action:none}
+.sf-pill:hover{background:#33363c}
+.sf-fill{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#5b82e8,#4a6fd8);border-radius:0 0 13px 13px;pointer-events:none}
+.sf-pv{position:absolute;left:0;right:0;top:6px;text-align:center;font-size:12px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .sf-q{width:58px;height:30px;border:0;border-radius:9px;background:#2b2d32;color:#d8dbe0;cursor:pointer;font-size:11.5px}
 .sf-q:hover{background:#383a40}.sf-q.on{background:#4a6fd8;color:#fff}
+.sf-q.sf-sub{width:72px;height:auto;min-height:30px;padding:5px 2px;background:#3b4f7d;color:#fff;font-size:11px}.sf-q.sf-sub:hover{background:#4a6fd8}
 body.sf #sfPanel{position:absolute;top:var(--sfTopH,62px);left:50%;transform:translateX(-50%);width:330px;max-height:calc(100% - var(--sfTopH,62px) - 20px);overflow:auto;z-index:10;background:rgba(28,29,33,.97);border:1px solid #0e0e10;border-radius:14px;padding:6px 0 10px;box-shadow:0 12px 30px rgba(0,0,0,.55)}
 .sf-ph{padding:6px 14px;font-weight:600;color:#e8eaee}
 .sf-row{display:flex;align-items:center;gap:6px;padding:5px 12px}.sf-row.on{background:#2c3a55}
@@ -300,6 +307,10 @@ body.sf #toast{top:var(--sfTopH,64px) !important;bottom:auto !important}
 #menuFab:hover{background:#3a3d44}
 #viewport.tl-on #menuFab{bottom:88px}
 body.sf #menuFab{display:none}
+body.sf.in-claude #sfTop{top:58px}
+#sfExit{display:none}
+body.sf #sfExit{display:flex;align-items:center;gap:6px;position:absolute;left:12px;bottom:12px;z-index:11;background:#e08a3c;color:#1b1c1f;border:0;border-radius:10px;padding:8px 13px;font-weight:600;font-size:12.5px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+body.sf #sfExit:hover{background:#f0a050}
 #menuSheet{position:absolute;left:10px;bottom:52px;width:300px;max-height:calc(100% - 70px);display:none;flex-direction:column;background:rgba(44,46,51,.99);border:1px solid #111;border-radius:10px;z-index:20;box-shadow:0 12px 30px rgba(0,0,0,.55)}
 #viewport.tl-on #menuSheet{bottom:128px;max-height:calc(100% - 146px)}
 .ms-head{display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #1b1c1f;font-weight:600}.ms-head span{flex:1}
@@ -320,7 +331,7 @@ body.sf #menuFab{display:none}
       <canvas id="c" tabindex="0"></canvas>
       <div id="hud"></div><div id="toolhint"></div><div id="viewname">persp</div>
       <div id="viewCube"><div id="vcStage"><div id="vcCube"></div></div><div class="vc-btns"><button class="vc-b" data-vc="persp" title="Perspective view">Persp</button><button class="vc-b" data-vc="ortho" title="Use flat orthographic projection for Top, Front, Side and the other views">Ortho</button></div><div class="vc-chips"><button class="vc-chip vc-top" data-view="top" title="Top">T</button><button class="vc-chip vc-front" data-view="front" title="Front">F</button><button class="vc-chip vc-right" data-view="right" title="Right side">R</button><button class="vc-chip vc-bottom" data-view="bottom" title="Bottom">Bo</button><button class="vc-chip vc-back" data-view="back" title="Back">Bk</button><button class="vc-chip vc-left" data-view="left" title="Left side">L</button></div></div>
-      <div id="sfTop"></div><div id="sfIcons"></div><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
+      <div id="sfTop"></div><div id="sfIcons"></div><button id="sfExit" title="Back to Polywerx (Esc)">⇄ Back to Polywerx</button><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
       <button id="menuFab" title="All menus (use this if the menu bar at the top is covered)">☰ Menus</button><div id="menuSheet"><div class="ms-head"><span>Menus</span><button id="msX" title="Close">×</button></div><div id="msBody"></div></div>
       <div id="marquee"></div><div id="drawBar"></div><div id="d2Cursor"></div><svg id="lassoSvg"><polyline points=""/></svg><div id="ctx"></div><div id="toast"></div>
       <div id="refCard"><div class="rc-head"><span class="rc-label"></span><button data-rc="fade" title="Change see-through amount">◐</button><button data-rc="x" title="Hide reference">×</button></div><img alt="Drawing reference"><button class="btn" data-rc="match">Match this drawing with Claude</button></div>
@@ -328,7 +339,7 @@ body.sf #menuFab{display:none}
       <div id="shapePanel"><div class="sp-head"><span id="spTitle">Shape Editor</span><button id="spX" title="Close">×</button></div><div id="spBody"></div></div>
       <div id="timeline"><div id="tlControls"></div><canvas id="tlCanvas"></canvas></div>
       <div id="shapeBar"></div><div id="tour"><div class="tour-head"><span id="tourStep"></span><button id="tourX" title="Close tour">×</button></div><div class="tour-prog"><div id="tourBar"></div></div><h3 id="tourTitle"></h3><div id="tourBody"></div><div id="tourStatus"></div><div class="tour-btns"><button class="btn" id="tourBack">Back</button><span style="flex:1"></span><button class="btn" id="tourDemo">Show me</button><button class="btn primary" id="tourNext">Next</button></div></div>
-      <div id="banner"><span>Restore your last autosaved scene?</span><button class="btn primary" id="bRestore">Restore</button><button class="btn" id="bDismiss">Start fresh</button></div>
+      <div id="banner"><span>Restore your last autosaved scene?</span><button class="btn primary" id="bRestore">Restore</button><button class="btn" id="bDismiss">Start fresh</button><button id="bClose" title="Close (the autosave is kept)">×</button></div>
     </div>
     <aside id="attr"><div class="ph">Attribute Editor <span id="attrKind"></span></div><div id="attrBody"></div></aside>
   </main>
@@ -2241,15 +2252,17 @@ const cmd = {
   },
   smooth() {
     const list = sel.mode === 'object' ? sel.objects.map(byId).filter(o => o && o.kind === 'mesh') : [target()];
-    if (!list.length) { toast('Select a mesh to smooth.'); return; }
+    if (!list.length) { toast('Select a mesh to subdivide.'); return; }
+    let done = 0, last = null;
     for (const o of list) {
-      if (o.skin) { toast(`${o.name} is skinned. Unbind before smoothing.`); continue; }
+      if (o.skin) { toast(`${o.name} is rigged. Unbind it (Rigging › Unbind Skin) before subdividing.`); continue; }
       if (!noShapes(o)) continue;
-      if (o.pm.faces.length > 25000) { toast(`${o.name} is already dense (${o.pm.faces.length} faces). Skipped to keep the app responsive.`); continue; }
-      setPM(o, catmullClark(o.pm));
+      if (o.pm.faces.length > 150000) { toast(`${o.name} already has ${o.pm.faces.length.toLocaleString()} faces. Subdividing again would make it too heavy for the browser.`); continue; }
+      setPM(o, catmullClark(o.pm)); done++; last = o;
     }
     sel.comp.clear();
-    updateOverlays(); updateGizmo(); renderAttr(); updateHUD(); commit('Smooth');
+    updateOverlays(); updateGizmo(); renderAttr(); updateHUD();
+    if (done) { commit('Subdivide'); toast(done === 1 ? `Subdivided ${last.name}: now ${last.pm.faces.length.toLocaleString()} faces.` : `Subdivided ${done} meshes.`); }
   },
   normals(angle) {
     const list = sel.mode === 'object' ? sel.objects.map(byId).filter(o => o && o.kind === 'mesh') : [target()];
@@ -3773,7 +3786,13 @@ function setTool(t) {
   if (t === 'sculpt' && tool !== 'sculpt') {
     const o = curMesh() || (shapeEdit && byId(shapeEdit.id));
     if (tool === 'paint') { brush.visible = false; tool = 'select'; o_weightsReset(); updateWeightsDisplay(); }
-    if (!o) { toast('Select a mesh first, then pick Sculpt.'); return; }
+    if (!o) {
+      // nothing selected: sculpt the first visible mesh, or start from a sphere in an empty scene
+      const first = objects.find(m => m.kind === 'mesh' && !m.ref && !m.draw2d && isShown(m) && !m.skin);
+      if (first) { sel.objects = [first.id]; onSelChanged(); return setTool('sculpt'); }
+      if (!objects.some(m => m.kind === 'mesh')) { try { sfAddPrimSilent('sphere'); } catch (e) { } if (curMesh()) return setTool('sculpt'); }
+      toast('Select a mesh first, then pick Sculpt.'); return;
+    }
     tool = 'sculpt';
     if (!sculptBegin(o)) { tool = 'select'; return; }
     enterSculptwerx();
@@ -3870,7 +3889,7 @@ const ACTIONS = {
   'mesh.merge': { label: 'Merge to Center', key: 'Ctrl+M', fn: cmd.merge },
   'mesh.deleteComp': { label: 'Delete Components', key: 'Del', fn: cmd.deleteComp },
   'mesh.flip': { label: 'Flip Normals', fn: cmd.flip },
-  'mesh.smooth': { label: 'Smooth (subdivide)', key: 'Ctrl+3', fn: cmd.smooth },
+  'mesh.smooth': { label: 'Subdivide (smooth)', key: 'Ctrl+3', fn: cmd.smooth },
   'mesh.soften': { label: 'Soften Edges', fn: () => cmd.normals(180) },
   'mesh.harden': { label: 'Harden Edges', fn: () => cmd.normals(0) },
   'uv.box': { label: 'Box Projection (automatic)', fn: () => cmd.uv('box') },
@@ -4119,7 +4138,7 @@ const SHELF = [
    ['mesh.symmetrize', 'symmetrize', 'Mirror Side', 'Keep one half of the mesh and mirror it onto the other side, for example to copy the lowered arm onto the raised one.'],
    ['mesh.hideFaces', 'hideFaces', 'Hide', 'Hide the selected faces so you can reach inside the mesh (mouth, ears). Ctrl+Shift+H shows them again.', 'Ctrl+H'],
    ['mesh.insertLoop', 'edgeLoop', 'Edge Loop', 'Insert a new ring of edges across the quads at the selected edge, for more detail.', 'Ctrl+L'],
-   ['mesh.smooth', 'smooth', 'Smooth', 'Subdivide the mesh so it becomes rounder and smoother (four times the faces).', 'Ctrl+3'],
+   ['mesh.smooth', 'smooth', 'Subdivide', 'Split every face into four so the mesh gets more detail and rounder edges. Do it before sculpting fine detail. Each click gives four times the faces.', 'Ctrl+3'],
    ['sel.soft', 'soft', 'Soft', 'Soft selection: moving vertices also pulls nearby ones, fading out with distance. [ and ] change the radius.', 'B', () => display.soft]],
   [['rig.autoSkeleton', 'autoRig', 'Auto-Rig', 'Add a humanoid skeleton sized to the selected mesh. Drag joints to fit; left and right mirror.'],
    ['rig.paint', 'paintW', 'Paint Wts', 'Paint how strongly each joint moves each part of the mesh. Click a joint to choose it, then brush. Whole pieces mode hands an eye or antler to one joint in one click.', 'Ctrl+P', () => tool === 'paint'],
@@ -4543,7 +4562,7 @@ function showHelp() {
 }
 function showQuickStart() {
   showModal('Quick Start', `<div class="help">
-<h3>1. Model</h3><p>Click <b>Cube</b> on the shelf. Right-click it and choose <b>Face</b>. Click the top face, press <kbd>Ctrl</kbd>+<kbd>E</kbd> to extrude, then drag the blue arrow up. Switch to <b>Edge</b>, click a side edge and press <kbd>Ctrl</kbd>+<kbd>L</kbd> to add an edge loop. Back in Object mode, <b>Smooth</b> rounds it off.</p>
+<h3>1. Model</h3><p>Click <b>Cube</b> on the shelf. Right-click it and choose <b>Face</b>. Click the top face, press <kbd>Ctrl</kbd>+<kbd>E</kbd> to extrude, then drag the blue arrow up. Switch to <b>Edge</b>, click a side edge and press <kbd>Ctrl</kbd>+<kbd>L</kbd> to add an edge loop. Back in Object mode, <b>Subdivide</b> rounds it off.</p>
 <h3>2. Texture</h3><p>With the mesh selected, open the <b>Texture &amp; UVs</b> section in the Attribute Editor. Try <b>Checker</b> to see how UVs are laid out, or <b>Image…</b> to load your own picture. The projection buttons re-map UVs for the whole mesh, or for selected faces in Face mode.</p>
 <h3>3. Rig</h3><p>Create a <b>Cylinder</b> and set its <i>height divisions</i> to 8 and height to 4 in the shape settings. Switch to <b>Display › Front</b>, press <kbd>J</kbd>, click three times up the cylinder and press <kbd>Enter</kbd>. Shift-select the cylinder and the first joint, then <b>Rigging › Bind Skin</b>. Select the middle joint and rotate it (<kbd>E</kbd>) to bend.</p>
 <h3>4. Light</h3><p>Add a <b>Plane</b> as a floor, then a <b>Dir Light</b>. Rotate the light to aim it and adjust intensity and colour in the Attribute Editor. As soon as you add a light, the default headlight switches off (press <kbd>7</kbd> to toggle).</p>
@@ -7431,7 +7450,7 @@ async function runSimplify(list, keep, quads, lockBorder) {
 const SF = { on: false, panel: null };
 function enterSculptwerx() {
   if (SF.on) return;
-  SF.on = true; document.body.classList.add('sf');
+  SF.on = true; document.body.classList.add('sf'); document.body.classList.toggle('in-claude', !!(window.claude && window.claude.use));
   renderSF(); setTimeout(() => { resize(); }, 0);
 }
 function exitSculptwerx() {
@@ -7456,22 +7475,27 @@ function renderSF() {
 <button class="sf-b" data-sf="redo" title="Redo (Ctrl+Shift+Z)">${SF_ICON('<path d="M15 7l5 5-5 5"/><path d="M20 12H10a6 6 0 000 12"/>', 18)}</button>
 <span class="sf-sep"></span>
 <button class="sf-b ${sculpt.mirror ? 'on' : ''}" data-sf="sym" title="Mirror strokes across X">${SF_ICON('<path d="M12 3v18" stroke-dasharray="2 2"/><path d="M9 7L4 12l5 5M15 7l5 5-5 5"/>', 18)}<span>Sym</span></button>
+<button class="sf-b" data-sf="subdiv" title="Subdivide: split every face into four for finer detail (Ctrl+3)">${SF_ICON('<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M12 4v16M4 12h16M8 4v16M16 4v16M4 8h16M4 16h16" stroke-width="1"/>', 18)}<span>Subdivide</span></button>
 <button class="sf-b ${sculpt.wire ? 'on' : ''}" data-sf="wire" title="Show wireframe">${SF_ICON('<path d="M4 4h16v16H4zM4 12h16M12 4v16M4 4l16 16"/>', 18)}<span>Wire</span></button>
 <span class="sf-sep"></span>
 ${['scene', 'layers', 'topology', 'material'].map(k => `<button class="sf-b ${SF.panel === k ? 'on' : ''}" data-sf="p:${k}">${k[0].toUpperCase() + k.slice(1)}</button>`).join('')}
 <span class="sf-sep"></span><span class="sf-info">${o ? `${esc(o.name)} · ${o.pm.verts.length.toLocaleString()} pts${tgt ? ' · into ' + esc(tgt.label) : ''}` : 'No mesh'}</span>`;
   $('#sfTools').innerHTML = SCULPT_BRUSHES.map(([k, l, svg]) => `<button class="sf-tool ${sculpt.brush === k ? 'on' : ''}" data-sfb="${k}" title="${l}">${SF_ICON(svg, 24)}<span>${l}</span></button>`).join('');
-  $('#sfLeft').innerHTML = `<div class="sf-vs"><span class="sf-vl">Size</span><input type="range" class="sf-v" data-sfs="radiusPx" min="5" max="250" step="1" value="${sculpt.radiusPx}"><span class="sf-vv">${Math.round(sculpt.radiusPx)}</span></div>
-<div class="sf-vs"><span class="sf-vl">Intensity</span><input type="range" class="sf-v" data-sfs="strength" min="0.02" max="1" step="0.01" value="${sculpt.strength}"><span class="sf-vv">${Math.round(sculpt.strength * 100)}</span></div>
+  const pill = (k, label, min, max, v, shown) => `<div class="sf-vs"><span class="sf-vl">${label}</span><div class="sf-pill" data-sfs="${k}" data-min="${min}" data-max="${max}" title="Drag up or down, or scroll"><div class="sf-fill" style="height:${((v - min) / (max - min) * 100).toFixed(1)}%"></div><span class="sf-pv">${shown}</span></div></div>`;
+  $('#sfLeft').innerHTML = pill('radiusPx', 'Size', 5, 250, sculpt.radiusPx, Math.round(sculpt.radiusPx)) + '\n' +
+    pill('strength', 'Intensity', 0.02, 1, sculpt.strength, Math.round(sculpt.strength * 100)) + `
 <button class="sf-q ${sculpt.invert ? 'on' : ''}" data-sf="sub" title="Push in instead of pulling out (or hold Ctrl)">Sub</button>
 <button class="sf-q ${sculpt.brush === 'smooth' ? 'on' : ''}" data-sfb="smooth" title="Smooth (or hold Shift)">Smooth</button>
-<button class="sf-q" data-sf="frame" title="Frame the model (F)">Frame</button>`;
+<button class="sf-q" data-sf="frame" title="Frame the model (F)">Frame</button>
+<button class="sf-q sf-sub" data-sf="subdiv" title="Subdivide: split every face into four for finer detail (Ctrl+3)">Subdivide</button>`;
   renderSFPanel();
   const ib = (op, ic, tip) => `<button class="sf-ib" data-sff="${op}" title="${tip}">${SF_ICON(SFF_IC[ic], 19)}</button>`;
+  const pb = t => `<button class="sf-ib" data-sfprim="${t}" title="Add a ${PRIMS[t].label.toLowerCase()} ready to sculpt">${icon(t)}</button>`;
   $('#sfIcons').innerHTML = ib('newSphere', 'sphere', 'New sculpt from a sphere') + ib('new', 'new', 'New empty scene') + '<span class="sf-isep"></span>' +
     ib('open', 'open', 'Open scene (Ctrl+O)') + ib('save', 'save', 'Save scene (Ctrl+S)') + ib('saveAs', 'saveas', 'Save scene as…') + '<span class="sf-isep"></span>' +
     ib('import', 'import', 'Import STL or OBJ') + ib('ref', 'ref', 'Import reference image') + '<span class="sf-isep"></span>' +
-    ib('stl', 'stl', 'Export STL for 3D printing') + ib('obj', 'obj', 'Export OBJ + textures') + ib('glb', 'glb', 'Export GLB with rig');
+    ib('stl', 'stl', 'Export STL for 3D printing') + ib('obj', 'obj', 'Export OBJ + textures') + ib('glb', 'glb', 'Export GLB with rig') +
+    '<span class="sf-isep"></span><span class="sf-ilab">Add</span>' + ['sphere', 'cube', 'cylinder', 'cone', 'torus', 'plane'].map(pb).join('');
   requestAnimationFrame(sfPlaceIcons);
 }
 // keep the icon row just under the top bar, and messages and panels under both, whatever the window size
@@ -7524,6 +7548,7 @@ $('#sfTop').addEventListener('click', e => {
   if (k === 'undo') return runAction('edit.undo');
   if (k === 'redo') return runAction('edit.redo');
   if (k === 'sym') { sculpt.mirror = !sculpt.mirror; renderSF(); return; }
+  if (k === 'subdiv') { sfTopo(() => runAction('mesh.smooth')); return; }
   if (k === 'wire') { sculpt.wire = !sculpt.wire; sfWire(); renderSF(); return; }
   if (k.startsWith('p:')) { const pn = k.slice(2); SF.panel = SF.panel === pn ? null : pn; renderSF(); }
 });
@@ -7533,12 +7558,28 @@ $('#sfLeft').addEventListener('click', e => {
   const q = e.target.closest('[data-sf]'); if (!q) return;
   if (q.dataset.sf === 'sub') { sculpt.invert = !sculpt.invert; renderSF(); }
   if (q.dataset.sf === 'frame') runAction('view.frame');
+  if (q.dataset.sf === 'subdiv') sfTopo(() => runAction('mesh.smooth'));
 });
-$('#sfLeft').addEventListener('input', e => {
-  const t = e.target; if (!t.dataset.sfs) return;
-  sculpt[t.dataset.sfs] = +t.value;
-  t.nextElementSibling.textContent = t.dataset.sfs === 'strength' ? Math.round(+t.value * 100) : Math.round(+t.value);
+// the size and intensity pills: drag anywhere on them (up = more), or scroll over them
+function sfPillSet(el, v) {
+  const k = el.dataset.sfs, min = +el.dataset.min, max = +el.dataset.max;
+  v = Math.max(min, Math.min(max, v)); sculpt[k] = k === 'strength' ? Math.round(v * 100) / 100 : Math.round(v);
+  el.querySelector('.sf-fill').style.height = ((sculpt[k] - min) / (max - min) * 100).toFixed(1) + '%';
+  el.querySelector('.sf-pv').textContent = k === 'strength' ? Math.round(sculpt[k] * 100) : sculpt[k];
+}
+let sfPillDrag = null;
+$('#sfLeft').addEventListener('pointerdown', e => {
+  const el = e.target.closest('.sf-pill'); if (!el) return;
+  e.preventDefault(); el.setPointerCapture(e.pointerId);
+  const min = +el.dataset.min, max = +el.dataset.max, r = el.getBoundingClientRect();
+  sfPillDrag = { el, y: e.clientY, v: sculpt[el.dataset.sfs], per: (max - min) / r.height };
+  // a click jumps to that spot; a drag then moves from there
+  const v = min + (1 - (e.clientY - r.top) / r.height) * (max - min); sfPillSet(el, v); sfPillDrag.v = sculpt[el.dataset.sfs];
 });
+$('#sfLeft').addEventListener('pointermove', e => { const d = sfPillDrag; if (!d) return; sfPillSet(d.el, d.v + (d.y - e.clientY) * d.per); });
+const sfPillEnd = () => { sfPillDrag = null; };
+$('#sfLeft').addEventListener('pointerup', sfPillEnd); $('#sfLeft').addEventListener('pointercancel', sfPillEnd);
+$('#sfLeft').addEventListener('wheel', e => { const el = e.target.closest('.sf-pill'); if (!el) return; e.preventDefault(); const span = +el.dataset.max - +el.dataset.min; sfPillSet(el, sculpt[el.dataset.sfs] - Math.sign(e.deltaY) * span / 40); }, { passive: false });
 $('#sfPanel').addEventListener('click', e => {
   const o = sculpt.session ? sculpt.session.o : curMesh();
   const so = e.target.closest('[data-sfo]');
@@ -7561,7 +7602,7 @@ $('#sfPanel').addEventListener('click', e => {
   const a = e.target.closest('[data-sfa]'); if (!a) return;
   const k = a.dataset.sfa;
   if (k === 'layer') { addLayer(); renderSF(); }
-  else if (k === 'sphere' || k === 'cube') { sculptEnd(); runAction('create.' + k); const m = curMesh(); if (m) sculptBegin(m); renderSF(); }
+  else if (k === 'sphere' || k === 'cube') sfAddPrim(k);
   else if (k === 'subdiv') sfTopo(() => runAction('mesh.smooth'));
   else if (k === 'simplify') sfTopo(() => simplifyDialog());
   else if (k === 'retopo') sfTopo(() => runAction('mesh.retopo'));
@@ -7733,7 +7774,7 @@ function bindParts(parts, root) {
 }
 
 /* ===== User guide and offline helper (when Polywerx is hosted as its own site) ===== */
-const PW_VERSION = '1.0';
+const PW_VERSION = '1.4';
 function openGuide() {
   showModal('Polywerx User Guide', `<p>A guide with screenshots and step-by-step examples: finding your way around, modeling, sculpting, rigging, posing, animation, 2D drawing, lights, saving and exporting, and keyboard shortcuts.</p><p class="hint" id="guideNote" style="color:var(--muted)">If the guide doesn't open in a new tab, use Save a copy and open it from your Downloads.</p><p style="color:var(--muted)">You're on version ${PW_VERSION}.</p>`,
     [{ label: 'Close' },
@@ -7754,9 +7795,9 @@ const SHELF_KEY = 'polywerx.shelves.v1', SHELF_TAB_KEY = 'polywerx.shelfTab';
 const SHELF_CAT = new Map(); SHELF.flat().forEach(it => SHELF_CAT.set(it[0], it));
 const SHELF_PINNED = [['tool.select', 'tool.move', 'tool.rotate', 'tool.scale'], ['mode.object', 'mode.vertex', 'mode.edge', 'mode.face']];
 const SHELF_DEFAULTS = [
-  { name: 'General', items: ['create.cube', 'create.sphere', 'create.cylinder', 'create.plane', 'create.mannequin', '-', 'file.importObj', 'file.importRef', '-', 'tool.lasso', 'tool.sculpt', 'tool.puppet', 'draw.enter', '-', 'view.snap', 'view.space', 'disp.xray', '-', 'help.tour'] },
+  { name: 'General', items: ['create.cube', 'create.sphere', 'create.cylinder', 'create.plane', 'create.mannequin', '-', 'mesh.extrude', 'mesh.smooth', '-', 'file.importObj', 'file.importRef', '-', 'tool.lasso', 'tool.sculpt', 'tool.puppet', 'draw.enter', '-', 'view.snap', 'view.space', 'disp.xray', '-', 'help.tour'] },
   { name: 'Modeling', items: ['create.cube', 'create.sphere', 'create.cylinder', 'create.cone', 'create.plane', 'create.torus', '-', 'mesh.extrude', 'mesh.insertLoop', 'mesh.merge', 'mesh.smooth', 'sel.soft', 'tool.lasso', '-', 'mesh.simplify', 'mesh.separate', 'mesh.symmetrize', 'mesh.hideFaces', '-', 'file.importObj', 'mesh.retopo', 'uv.unwrap', 'tex.checker', '-', 'view.snap', 'view.space'] },
-  { name: 'Sculpt', items: ['tool.sculpt', 'layer.add', '-', 'tool.lasso', 'sel.soft', 'mesh.hideFaces', 'mesh.showFaces', '-', 'mesh.symmetrize', 'mesh.simplify', 'mesh.retopo', 'mesh.bake', '-', 'file.importObj', 'file.importRef'] },
+  { name: 'Sculpt', items: ['tool.sculpt', 'mesh.smooth', 'layer.add', '-', 'tool.lasso', 'sel.soft', 'mesh.hideFaces', 'mesh.showFaces', '-', 'mesh.symmetrize', 'mesh.simplify', 'mesh.retopo', 'mesh.bake', '-', 'file.importObj', 'file.importRef'] },
   { name: 'Rigging', items: ['create.mannequin', '-', 'rig.autoSkeleton', 'rig.autoFit', 'rig.autoBind', '-', 'face.add', 'face.rig', '-', 'rig.joint', 'rig.bind', 'rig.unbind', 'rig.bindPose', '-', 'rig.paint', 'rig.weights', 'disp.joints', 'disp.xray'] },
   { name: 'Animation', items: ['anim.timeline', 'anim.play', 'anim.key', 'anim.delKey', '-', 'tool.puppet', 'pup.check', '-', 'shape.panel', 'shape.lipset', 'shape.region', '-', 'anim.audio', 'anim.loud', 'anim.drawings', '-', 'file.exportGlb'] },
   { name: 'Lighting', items: ['light.panel', 'light.three', '-', 'light.directional', 'light.point', 'light.spot', 'light.ambient', 'light.hemisphere', '-', 'light.fromView', 'light.frame', 'light.shadows', 'light.default', 'disp.lights', '-', 'create.plane'] },
@@ -7765,6 +7806,8 @@ const SHELF_DEFAULTS = [
 const shelfClone = t => t.map(s => ({ name: s.name, items: s.items.slice() }));
 let shelves = (() => { try { const s = JSON.parse(localStorage.getItem(SHELF_KEY)); if (Array.isArray(s) && s.length && s.every(x => x && typeof x.name === 'string' && Array.isArray(x.items))) return s; } catch (e) { } return shelfClone(SHELF_DEFAULTS); })();
 let shelfTab = (() => { try { return Math.max(0, Math.min(shelves.length - 1, +localStorage.getItem(SHELF_TAB_KEY) || 0)); } catch (e) { return 0; } })();
+// shelves saved before Subdivide had a button get it once, on General and Sculpt
+try { if (!localStorage.getItem('polywerx.shelfMig1')) { for (const s of shelves) { if ((s.name === 'General' || s.name === 'Sculpt') && !s.items.includes('mesh.smooth')) { const i = s.items.indexOf(s.name === 'General' ? 'create.mannequin' : 'tool.sculpt'); s.items.splice(i < 0 ? 0 : i + 1, 0, ...(s.name === 'General' ? ['-', 'mesh.smooth'] : ['mesh.smooth'])); } } localStorage.setItem('polywerx.shelfMig1', '1'); localStorage.setItem('polywerx.shelves.v1', JSON.stringify(shelves)); } } catch (e) { }
 function saveShelves() { try { localStorage.setItem(SHELF_KEY, JSON.stringify(shelves)); localStorage.setItem(SHELF_TAB_KEY, String(shelfTab)); } catch (e) { } }
 const shelfShort = l => l.replace(/^(Auto-Rig|Face Rig|Planar Projection):\s*/, '').replace(/\s*\([^)]*\)/g, '').replace(/[…]|\.\.\.$/g, '').replace(/^Polygon /, '').trim();
 function shelfItem(id) {
@@ -7971,7 +8014,34 @@ function sfFileRun(e) {
   else if (op === 'back') toggleWorkspace();
 }
 sfFile.addEventListener('click', sfFileRun);
-$('#sfIcons').addEventListener('click', sfFileRun);
+$('#sfIcons').addEventListener('click', e => { const p = e.target.closest('[data-sfprim]'); if (p) { sfAddPrim(p.dataset.sfprim); return; } sfFileRun(e); });
+$('#sfExit').addEventListener('click', () => { sfFileClose(); toggleWorkspace(); });
+// primitives with enough points to sculpt on, added at the centre and ready to brush
+const SF_PRIM = {
+  sphere: [{ axisDivisions: 48, heightDivisions: 32 }, 1],
+  cube: [{ subdivisions: 24 }, 0],
+  cylinder: [{ axisDivisions: 40, heightDivisions: 20 }, 1],
+  cone: [{ axisDivisions: 40 }, 2],
+  torus: [{ axisDivisions: 64, heightDivisions: 28 }, 1],
+  plane: [{ subdivisionsW: 80, subdivisionsD: 80 }, 0]
+};
+function sfAddPrimSilent(t) {
+  const [params, smooth] = SF_PRIM[t] || [{}, 1];
+  const o = createPrimitive(t, params); o.name = uniqueName(t);
+  sel.objects = [o.id]; onSelChanged();
+  for (let i = 0; i < smooth; i++) runAction('mesh.smooth');
+  commit('Add ' + t);
+}
+function sfAddPrim(t) {
+  const [params, smooth] = SF_PRIM[t] || [{}, 1];
+  sculptEnd(); if (sel.mode !== 'object') setMode('object');
+  const o = createPrimitive(t, params); o.name = uniqueName(t === 'plane' ? 'sheet' : t);
+  sel.objects = [o.id]; onSelChanged();
+  for (let i = 0; i < smooth; i++) runAction('mesh.smooth');
+  const m = curMesh() || o; commit('Add ' + t);
+  sculptBegin(m); renderSF(); renderOutliner();
+  toast(`Added ${m.name}: ${m.pm.verts.length.toLocaleString()} points to sculpt. Move it in Polywerx with W if it overlaps.`);
+}
 function saveSceneAs() {
   showModal('Save scene as', `<p>File name</p><div style="display:flex;align-items:center;gap:6px"><input id="saveAsName" type="text" value="${esc(prompt2Name || 'scene')}" style="flex:1;padding:6px;background:#1f2125;border:1px solid #111;color:var(--text);border-radius:4px"><span style="color:var(--muted)">.json</span></div>`,
     [{ label: 'Cancel' }, { label: 'Save', primary: true, fn: () => { const n = ($('#saveAsName').value || '').trim().replace(/\.json$/i, '').replace(/[\\/:*?"<>|]+/g, '-'); prompt2Name = n || 'scene'; saveScene(); } }]);
@@ -8227,8 +8297,8 @@ const STEPS = [
     }
   },
   {
-    title: 'Smooth it',
-    body: 'Press <kbd>F8</kbd> to go back to Object mode, then click <b>Smooth</b>. Every face splits into four and the shape rounds off. Undo (<kbd>Ctrl</kbd>+<kbd>Z</kbd>) if you prefer it blocky.',
+    title: 'Subdivide it',
+    body: 'Press <kbd>F8</kbd> to go back to Object mode, then click <b>Subdivide</b>. Every face splits into four and the shape rounds off. Undo (<kbd>Ctrl</kbd>+<kbd>Z</kbd>) if you prefer it blocky.',
     target: () => ({ el: sel.mode === 'object' ? '#shelf [data-action="mesh.smooth"]' : '#shelf [data-action="mode.object"]' }),
     enter() { const c = tObj('cube', 'mesh'); tour.base.faces = c ? c.pm.faces.length : null; },
     check() { const c = tObj('cube', 'mesh'); if (!c) return false; if (tour.base.faces == null) tour.base.faces = c.pm.faces.length; return sel.mode === 'object' && c.pm.faces.length >= tour.base.faces * 2; },
@@ -8450,6 +8520,7 @@ if (saved) {
       $('#banner').style.display = 'flex';
       $('#bRestore').onclick = () => { $('#banner').style.display = 'none'; deserialize(d, false); history.stack = []; history.index = -1; commit('Restored autosave'); frameSelection(true); };
       $('#bDismiss').onclick = () => { $('#banner').style.display = 'none'; };
+      $('#bClose').onclick = () => { $('#banner').style.display = 'none'; };
     }
   } catch (e) { }
 }
