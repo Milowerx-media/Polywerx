@@ -268,6 +268,14 @@ body.sf #sfIcons{display:flex;flex-wrap:wrap;justify-content:center;align-items:
 .sf-ib:hover{background:#4a6fd8;color:#fff}
 .sf-isep{width:1px;height:20px;background:#3a3c42;margin:0 4px}
 .sf-ilab{color:#8d929b;font-size:11px;margin:0 2px 0 2px}
+.sf-tsep{height:1px;background:#3a3c42;margin:1px 6px}
+#sfGz{display:none}
+body.sf #sfGz.show{display:flex;align-items:center;gap:4px;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:10;background:rgba(24,25,28,.92);border:1px solid #0e0e10;border-radius:12px;padding:5px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+#sfGz button{display:flex;align-items:center;gap:6px;background:transparent;border:0;color:#d8dbe0;border-radius:8px;padding:6px 11px;cursor:pointer;font:inherit;font-size:12.5px}
+#sfGz button:hover{background:#383a40}#sfGz button.on{background:#4a6fd8;color:#fff}
+#sfGz .gz-hint{color:#8d929b;font-size:11.5px;padding:0 8px}
+#sfTip{display:none;position:fixed;z-index:200;max-width:260px;background:#111214;color:#e8eaee;border:1px solid #2c2e33;border-radius:8px;padding:7px 10px;font-size:12px;line-height:1.4;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+#sfTip b{display:block;font-size:12.5px}#sfTip span{color:#a9aeb7}
 .sf-ib svg{width:20px;height:20px}
 #sfFile{display:none;position:absolute;z-index:30;width:290px;max-height:calc(100% - 70px);overflow:auto;background:rgba(28,29,33,.98);border:1px solid #0e0e10;border-radius:12px;padding:6px;box-shadow:0 14px 36px rgba(0,0,0,.6)}
 #sfFile .sff-h{padding:6px 10px 3px;color:#8d929b;font-size:10px;text-transform:uppercase;letter-spacing:.6px}
@@ -331,7 +339,7 @@ body.sf #sfExit:hover{background:#f0a050}
       <canvas id="c" tabindex="0"></canvas>
       <div id="hud"></div><div id="toolhint"></div><div id="viewname">persp</div>
       <div id="viewCube"><div id="vcStage"><div id="vcCube"></div></div><div class="vc-btns"><button class="vc-b" data-vc="persp" title="Perspective view">Persp</button><button class="vc-b" data-vc="ortho" title="Use flat orthographic projection for Top, Front, Side and the other views">Ortho</button></div><div class="vc-chips"><button class="vc-chip vc-top" data-view="top" title="Top">T</button><button class="vc-chip vc-front" data-view="front" title="Front">F</button><button class="vc-chip vc-right" data-view="right" title="Right side">R</button><button class="vc-chip vc-bottom" data-view="bottom" title="Bottom">Bo</button><button class="vc-chip vc-back" data-view="back" title="Back">Bk</button><button class="vc-chip vc-left" data-view="left" title="Left side">L</button></div></div>
-      <div id="sfTop"></div><div id="sfIcons"></div><button id="sfExit" title="Back to Polywerx (Esc)">⇄ Back to Polywerx</button><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
+      <div id="sfTop"></div><div id="sfIcons"></div><div id="sfGz"></div><button id="sfExit" title="Back to Polywerx (Esc)">⇄ Back to Polywerx</button><div id="sfTools"></div><div id="sfLeft"></div><div id="sfPanel"></div>
       <button id="menuFab" title="All menus (use this if the menu bar at the top is covered)">☰ Menus</button><div id="menuSheet"><div class="ms-head"><span>Menus</span><button id="msX" title="Close">×</button></div><div id="msBody"></div></div>
       <div id="marquee"></div><div id="drawBar"></div><div id="d2Cursor"></div><svg id="lassoSvg"><polyline points=""/></svg><div id="ctx"></div><div id="toast"></div>
       <div id="refCard"><div class="rc-head"><span class="rc-label"></span><button data-rc="fade" title="Change see-through amount">◐</button><button data-rc="x" title="Hide reference">×</button></div><img alt="Drawing reference"><button class="btn" data-rc="match">Match this drawing with Claude</button></div>
@@ -1409,6 +1417,7 @@ function boxSelect(r, mods, insideFn) {
 function updateGizmo() {
   tc.detach();
   tc.setSpace(display.space);
+  if (tool === 'sculpt' && sfGizmoOn()) { tc.setMode(SF.gmode); applySnap(); const a = active(); if (a && isShown(a)) tc.attach(a.node); return; }
   if (tool === 'select' || tool === 'joint' || tool === 'paint' || tool === 'sculpt' || tool === 'lasso' || tool === 'draw2d' || tool === 'puppet') return;
   tc.setMode(pivotEdit.on ? 'translate' : tool === 'move' ? 'translate' : tool === 'rotate' ? 'rotate' : 'scale');
   applySnap();
@@ -1471,7 +1480,8 @@ tc.addEventListener('dragging-changed', ev => {
       drag = { obj: false, o, wmap, startInv: pivot.matrixWorld.clone().invert(), objInv: o.node.matrixWorld.clone().invert(), verts: [...wmap].map(([i, wt]) => ({ i, wt, w: V(...o.pm.verts[i]).applyMatrix4(o.node.matrixWorld) })) };
     }
   } else if (drag) {
-    const label = tool === 'move' ? 'Move' : tool === 'rotate' ? 'Rotate' : 'Scale';
+    const mode = tool === 'sculpt' && sfGizmoOn() ? SF.gmode : tool === 'move' ? 'translate' : tool === 'rotate' ? 'rotate' : 'scale';
+    const label = mode === 'translate' ? 'Move' : mode === 'rotate' ? 'Rotate' : 'Scale';
     if (drag.fit && drag.fit.main.o.faceOf) { const S = faceSurface(byId(drag.fit.main.o.faceOf)); snapFacePoint(drag.fit.main.o, S); if (drag.fit.mirror) snapFacePoint(drag.fit.mirror.o, S); S.dispose(); }
     if (!drag.obj) { drag.o.prim = null; rebuildObjOverlay(drag.o); }
     else { sel.objects.map(byId).forEach(x => { if (x && x.kind === 'light') { fitShadow(x); } }); if (lightPanelOpen) renderLightPanel(); }
@@ -1550,6 +1560,13 @@ canvas.addEventListener('pointerdown', e => {
     canvas.setPointerCapture(e.pointerId);
     return;
   }
+  if (tool === 'sculpt' && sfGizmoOn()) {
+    // gizmo: tap an object to select it, drag the background to turn around, drag the handles to move it
+    SF.tap = { x: e.clientX, y: e.clientY, e };
+    nav = { type: e.shiftKey ? 'pan' : 'orbit', x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, menu: null, moved: false }; canvas.setPointerCapture(e.pointerId);
+    if (SF.panel) { SF.panel = null; renderSFPanel(); renderSF(); }
+    return;
+  }
   if (tool === 'sculpt') {
     if (!sculpt.session) { const o = curMesh(); if (!o || !sculptBegin(o)) return; }
     if (sculptStrokeStart(e)) canvas.setPointerCapture(e.pointerId);
@@ -1582,6 +1599,7 @@ canvas.addEventListener('pointermove', e => {
     if (paint.stroking && !paint.piece) { const now = performance.now(); if (now - paint.last > 30) { paint.last = now; paintStroke(e); } }
     return;
   }
+  if (tool === 'sculpt' && sfGizmoOn()) return;
   if (tool === 'sculpt') { if (sculpt.stroke) sculptStrokeMove(e); else sculptHover(e); return; }
   if (PUP.drag) { pupMove(e); return; }
   if (PUP.trailDrag) { pupTrailMove(e); return; }
@@ -3596,7 +3614,8 @@ function deserialize(data, keepSel) {
     beginShapeEdit(eo, data.shapeEdit.idx, mode);
     if (sel.mode !== 'object') { sel.comp = new Set(comp); onCompChanged(); }
   }
-  if (tool === 'sculpt' && !sculpt.session) { const so = byId(sculpt.mesh); if (so && so.kind === 'mesh') sculptBegin(so); else { tool = 'select'; renderShelf(); } }
+  if (tool === 'sculpt' && !sculpt.session && !sfGizmoOn()) { const so = byId(sculpt.mesh); if (so && so.kind === 'mesh') sculptBegin(so); else { tool = 'select'; renderShelf(); } }
+  if (tool === 'sculpt' && sfGizmoOn()) setTimeout(() => { updateGizmo(); renderSF(); }, 0);
   renderTimelineControls(); drawTimeline(); renderShapePanel(); updateRefCard();
 }
 const history = { stack: [], index: -1 };
@@ -4617,9 +4636,9 @@ window.addEventListener('keydown', e => {
   if (e.altKey) return;
   switch (k) {
     case 'q': case 'Q': return go('tool.select');
-    case 'w': case 'W': return go('tool.move');
-    case 'e': case 'E': return go('tool.rotate');
-    case 'r': case 'R': return go('tool.scale');
+    case 'w': case 'W': if (SF.on) { sfGizmo(true, 'translate'); e.preventDefault(); return; } return go('tool.move');
+    case 'e': case 'E': if (SF.on) { sfGizmo(true, 'rotate'); e.preventDefault(); return; } return go('tool.rotate');
+    case 'r': case 'R': if (SF.on) { sfGizmo(true, 'scale'); e.preventDefault(); return; } return go('tool.scale');
     case 'j': case 'J': return go('rig.joint');
     case 'f': case 'F': return go('view.frame');
     case 'a': return go('view.frameAll');
@@ -7447,7 +7466,8 @@ async function runSimplify(list, keep, quads, lockBorder) {
 /* ============================================================
    Sculptwerx: a sculpting workspace laid out like a tablet sculpting app
    ============================================================ */
-const SF = { on: false, panel: null };
+const SF = { on: false, panel: null, gizmo: false, gmode: 'translate', tap: null };
+const sfGizmoOn = () => SF.on && SF.gizmo;
 function enterSculptwerx() {
   if (SF.on) return;
   SF.on = true; document.body.classList.add('sf'); document.body.classList.toggle('in-claude', !!(window.claude && window.claude.use));
@@ -7455,7 +7475,7 @@ function enterSculptwerx() {
 }
 function exitSculptwerx() {
   if (!SF.on) return;
-  SF.on = false; SF.panel = null; document.body.classList.remove('sf');
+  SF.on = false; SF.panel = null; SF.gizmo = false; try { sfGizmoBar(); } catch (e) { } document.body.classList.remove('sf');
   setTimeout(() => { resize(); }, 0);
 }
 function toggleWorkspace() {
@@ -7480,7 +7500,10 @@ function renderSF() {
 <span class="sf-sep"></span>
 ${['scene', 'layers', 'topology', 'material'].map(k => `<button class="sf-b ${SF.panel === k ? 'on' : ''}" data-sf="p:${k}">${k[0].toUpperCase() + k.slice(1)}</button>`).join('')}
 <span class="sf-sep"></span><span class="sf-info">${o ? `${esc(o.name)} · ${o.pm.verts.length.toLocaleString()} pts${tgt ? ' · into ' + esc(tgt.label) : ''}` : 'No mesh'}</span>`;
-  $('#sfTools').innerHTML = SCULPT_BRUSHES.map(([k, l, svg]) => `<button class="sf-tool ${sculpt.brush === k ? 'on' : ''}" data-sfb="${k}" title="${l}">${SF_ICON(svg, 24)}<span>${l}</span></button>`).join('');
+  const gz = sfGizmoOn();
+  $('#sfTools').innerHTML = `<button class="sf-tool ${gz ? 'on' : ''}" data-sfg="1" title="Gizmo (W)|Tap an object to select it, then drag the arrows to move it, the rings to turn it or the boxes to scale it.">${SF_ICON('<path d="M12 3v18M3 12h18"/><path d="M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/>', 24)}<span>Gizmo</span></button><div class="sf-tsep"></div>` +
+    SCULPT_BRUSHES.map(([k, l, svg]) => `<button class="sf-tool ${!gz && sculpt.brush === k ? 'on' : ''}" data-sfb="${k}" title="${l}|${SF_BRUSH_TIPS[k] || ''}">${SF_ICON(svg, 24)}<span>${l}</span></button>`).join('');
+  sfGizmoBar();
   const pill = (k, label, min, max, v, shown) => `<div class="sf-vs"><span class="sf-vl">${label}</span><div class="sf-pill" data-sfs="${k}" data-min="${min}" data-max="${max}" title="Drag up or down, or scroll"><div class="sf-fill" style="height:${((v - min) / (max - min) * 100).toFixed(1)}%"></div><span class="sf-pv">${shown}</span></div></div>`;
   $('#sfLeft').innerHTML = pill('radiusPx', 'Size', 5, 250, sculpt.radiusPx, Math.round(sculpt.radiusPx)) + '\n' +
     pill('strength', 'Intensity', 0.02, 1, sculpt.strength, Math.round(sculpt.strength * 100)) + `
@@ -7536,7 +7559,7 @@ function sfTopo(fn) {
   const o = sculpt.session ? sculpt.session.o : curMesh(); if (!o) return;
   sculptEnd(); sel.objects = [o.id];
   fn(o);
-  setTimeout(() => { if (tool === 'sculpt' && !sculpt.session) { const m = curMesh(); if (m) sculptBegin(m); } renderSF(); }, 0);
+  setTimeout(() => { if (tool === 'sculpt' && !sculpt.session && !sfGizmoOn()) { const m = curMesh(); if (m) sculptBegin(m); } updateGizmo(); renderSF(); }, 0);
 }
 $('#sfTop').addEventListener('click', e => {
   const b = e.target.closest('[data-sf]'); if (!b) return; const k = b.dataset.sf;
@@ -7552,9 +7575,12 @@ $('#sfTop').addEventListener('click', e => {
   if (k === 'wire') { sculpt.wire = !sculpt.wire; sfWire(); renderSF(); return; }
   if (k.startsWith('p:')) { const pn = k.slice(2); SF.panel = SF.panel === pn ? null : pn; renderSF(); }
 });
-$('#sfTools').addEventListener('click', e => { const b = e.target.closest('[data-sfb]'); if (b) { sculpt.brush = b.dataset.sfb; renderSF(); renderAttr(); } });
+$('#sfTools').addEventListener('click', e => {
+  if (e.target.closest('[data-sfg]')) { sfGizmo(true); return; }
+  const b = e.target.closest('[data-sfb]'); if (b) { sculpt.brush = b.dataset.sfb; if (sfGizmoOn()) sfGizmo(false); renderSF(); renderAttr(); }
+});
 $('#sfLeft').addEventListener('click', e => {
-  const b = e.target.closest('[data-sfb]'); if (b) { sculpt.brush = b.dataset.sfb; renderSF(); return; }
+  const b = e.target.closest('[data-sfb]'); if (b) { sculpt.brush = b.dataset.sfb; if (sfGizmoOn()) sfGizmo(false); renderSF(); return; }
   const q = e.target.closest('[data-sf]'); if (!q) return;
   if (q.dataset.sf === 'sub') { sculpt.invert = !sculpt.invert; renderSF(); }
   if (q.dataset.sf === 'frame') runAction('view.frame');
@@ -8081,6 +8107,72 @@ function sfAfterLoad() {
     renderSF();
   }, 0);
 }
+
+
+/* ===== Sculptwerx gizmo (select, move, rotate, scale objects like Nomad) and hover labels ===== */
+const SF_BRUSH_TIPS = {
+  draw: 'Builds up the surface where you drag.', clay: 'Adds flat layers, like pressing on strips of clay.', inflate: 'Puffs the surface outwards, good for cheeks and muscles.',
+  smooth: 'Evens out bumps. You can also hold Shift with any brush.', flatten: 'Planes the surface down to a flat level.', crease: 'Cuts a sharp line, good for wrinkles and folds.',
+  pinch: 'Pulls the surface together to sharpen edges.', grab: 'Drags a whole area to reshape it.'
+};
+function sfGizmo(on, mode) {
+  if (!SF.on) return;
+  if (mode) SF.gmode = mode;
+  if (on && !SF.gizmo) {
+    const o = sculpt.session ? sculpt.session.o : curMesh();
+    sculptEnd(); SF.gizmo = true; sculptRing.visible = false;
+    if (o) { sel.objects = [o.id]; onSelChanged(); }
+    if (!localStorage_get('pw.gizmoTip')) { localStorage_set('pw.gizmoTip', '1'); toast('Gizmo: tap an object to select it. Drag the arrows to move it, the rings to turn it, or the boxes to scale it. Pick a brush to sculpt the selected object.'); }
+  } else if (!on && SF.gizmo) {
+    SF.gizmo = false; tc.detach();
+    const o = curMesh(); if (o) sculptBegin(o);
+  }
+  updateGizmo(); renderSF();
+}
+function sfGizmoBar() {
+  const el = $('#sfGz'); if (!el) return;
+  if (!sfGizmoOn()) { el.classList.remove('show'); el.innerHTML = ''; return; }
+  const b = (m, label, key, svg) => `<button class="${SF.gmode === m ? 'on' : ''}" data-gz="${m}" title="${label} (${key})">${SF_ICON(svg, 17)}${label}</button>`;
+  const a = active();
+  el.innerHTML = b('translate', 'Move', 'W', '<path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/>') +
+    b('rotate', 'Rotate', 'E', '<path d="M20 12a8 8 0 11-3-6.2"/><path d="M20 4v5h-5"/>') +
+    b('scale', 'Scale', 'R', '<rect x="4" y="4" width="10" height="10"/><path d="M14 14l6 6M16 20h4v-4"/>') +
+    `<span class="gz-hint">${a && a.kind === 'mesh' ? esc(a.name) + ' selected · tap another object to select it' : 'Tap an object to select it'}</span>`;
+  el.classList.add('show');
+}
+$('#sfGz').addEventListener('click', e => { const b = e.target.closest('[data-gz]'); if (b) { SF.gmode = b.dataset.gz; updateGizmo(); sfGizmoBar(); } });
+// a tap (press and release without dragging) selects whatever is under the pointer
+canvas.addEventListener('pointerup', e => {
+  const t = SF.tap; SF.tap = null;
+  if (!t || !sfGizmoOn() || Math.hypot(e.clientX - t.x, e.clientY - t.y) > 5) return;
+  const hit = pickObject(e);
+  if (hit && hit.kind === 'mesh' && !hit.ref && !hit.draw2d) { sel.objects = [hit.id]; onSelChanged(); updateGizmo(); renderSF(); }
+}, true);
+// hover labels for everything in Sculptwerx: the name, then what it does
+const sfTip = document.createElement('div'); sfTip.id = 'sfTip'; document.body.appendChild(sfTip);
+let sfTipEl = null, sfTipTimer = 0;
+const SF_TIP_AREAS = '#sfTop, #sfIcons, #sfTools, #sfLeft, #sfExit, #sfGz, #sfPanel';
+document.addEventListener('pointerover', e => {
+  if (!SF.on || e.pointerType === 'touch') return;
+  const el = e.target.closest('[title],[data-sftip]'); if (!el || !el.closest(SF_TIP_AREAS)) { if (sfTipEl && !e.target.closest(SF_TIP_AREAS)) { sfTip.style.display = 'none'; sfTipEl = null; } return; }
+  if (el.hasAttribute('title')) { el.dataset.sftip = el.getAttribute('title'); el.removeAttribute('title'); }
+  if (el === sfTipEl) return;
+  sfTipEl = el; clearTimeout(sfTipTimer);
+  sfTipTimer = setTimeout(() => {
+    if (sfTipEl !== el || !document.body.contains(el)) return;
+    const [name, ...rest] = el.dataset.sftip.split('|'), desc = rest.join('|');
+    sfTip.innerHTML = `<b>${esc(name)}</b>${desc ? `<span>${esc(desc)}</span>` : ''}`;
+    sfTip.style.display = 'block';
+    const r = el.getBoundingClientRect(), w = sfTip.offsetWidth, h = sfTip.offsetHeight;
+    let x = r.left + r.width / 2 - w / 2, y = r.bottom + 8;
+    if (el.closest('#sfTools')) { x = r.left - w - 10; y = r.top + r.height / 2 - h / 2; }
+    else if (el.closest('#sfLeft')) { x = r.right + 10; y = r.top + r.height / 2 - h / 2; }
+    else if (el.closest('#sfExit, #sfGz')) y = r.top - h - 8;
+    sfTip.style.left = Math.max(6, Math.min(innerWidth - w - 6, x)) + 'px';
+    sfTip.style.top = Math.max(6, Math.min(innerHeight - h - 6, y)) + 'px';
+  }, 250);
+});
+document.addEventListener('pointerdown', () => { sfTip.style.display = 'none'; sfTipEl = null; clearTimeout(sfTipTimer); }, true);
 
 /* ============================================================
    Render loop
